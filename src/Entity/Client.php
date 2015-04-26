@@ -308,10 +308,10 @@ class Client implements ArraySerializableInterface
     /**
      * Add refreshToken
      *
-     * @param \ZF\OAuth2\Entity\RefreshToken $refreshToken
+     * @param \ZF\OAuth2\Doctrine\Entity\RefreshToken $refreshToken
      * @return Client
      */
-    public function addRefreshToken(\ZF\OAuth2\Entity\RefreshToken $refreshToken)
+    public function addRefreshToken(\ZF\OAuth2\Doctrine\Entity\RefreshToken $refreshToken)
     {
         $this->refreshToken[] = $refreshToken;
 
@@ -321,9 +321,9 @@ class Client implements ArraySerializableInterface
     /**
      * Remove refreshToken
      *
-     * @param \ZF\OAuth2\Entity\RefreshToken $refreshToken
+     * @param \ZF\OAuth2\Doctrine\Entity\RefreshToken $refreshToken
      */
-    public function removeRefreshToken(\ZF\OAuth2\Entity\RefreshToken $refreshToken)
+    public function removeRefreshToken(\ZF\OAuth2\Doctrine\Entity\RefreshToken $refreshToken)
     {
         $this->refreshToken->removeElement($refreshToken);
     }
@@ -341,10 +341,10 @@ class Client implements ArraySerializableInterface
     /**
      * Add authorizationCode
      *
-     * @param \ZF\OAuth2\Entity\AuthorizationCode $authorizationCode
+     * @param \ZF\OAuth2\Doctrine\Entity\AuthorizationCode $authorizationCode
      * @return Client
      */
-    public function addAuthorizationCode(\ZF\OAuth2\Entity\AuthorizationCode $authorizationCode)
+    public function addAuthorizationCode(\ZF\OAuth2\Doctrine\Entity\AuthorizationCode $authorizationCode)
     {
         $this->authorizationCode[] = $authorizationCode;
 
@@ -354,9 +354,9 @@ class Client implements ArraySerializableInterface
     /**
      * Remove authorizationCode
      *
-     * @param \ZF\OAuth2\Entity\AuthorizationCode $authorizationCode
+     * @param \ZF\OAuth2\Doctrine\Entity\AuthorizationCode $authorizationCode
      */
-    public function removeAuthorizationCode(\ZF\OAuth2\Entity\AuthorizationCode $authorizationCode)
+    public function removeAuthorizationCode(\ZF\OAuth2\Doctrine\Entity\AuthorizationCode $authorizationCode)
     {
         $this->authorizationCode->removeElement($authorizationCode);
     }

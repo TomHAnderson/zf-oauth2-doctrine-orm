@@ -47,7 +47,7 @@ Copy ```config/oauth2.doctrine-orm.global.php.dist``` to your autoload directory
 The User Entity
 --------------
 
-This repository supplies every entity you need to implement OAuth2 except the User entity.  The reason is so the User entity can be decoupled from the OAuth2 Doctrine repository instead to be linked dynamically at run time.  This allows, among other benefits, the ability to create an ERD without modifying the `OAuth2-rm.module.xml` module.
+This repository supplies every entity you need to implement OAuth2 except the User entity.  The reason is so the User entity can be decoupled from the OAuth2 Doctrine repository instead to be linked dynamically at run time.  This allows, among other benefits, the ability to create an ERD without modifying the `OAuth2-orm.module.xml` module.
 
 The User entity must implement `ZF\OAuth2\Doctrine\Entity\UserInterface`
 

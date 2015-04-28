@@ -8,6 +8,7 @@
             <directory>./test/Orm</directory>
         </testsuite>
         <testsuite name="odm">
+            <directory>./test/Odm</directory>
         </testsuite>
     </testsuites>
 

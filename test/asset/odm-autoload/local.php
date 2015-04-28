@@ -2,12 +2,18 @@
 
 return array(
     'doctrine' => array(
+        'configuration' => [
+            'odm_default' => [
+                'defaultDB' => 'zf_oauth2_doctrine_test',
+            ],
+        ],
         'connection' => array(
-            'orm_default' => array(
-                'driverClass' => 'Doctrine\DBAL\Driver\PDOSqlite\Driver',
-                'params' => array(
-                    'memory' => 'true',
-                ),
+            'odm_default' => array(
+                'server' => 'localhost',
+                'port' => '27017',
+                'user' => '',
+                'password' => '',
+                'dbname' => 'zf_oauth2_doctrine_test',
             ),
         ),
     ),

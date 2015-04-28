@@ -8,7 +8,7 @@ return array(
         'ZF\\OAuth2\\Doctrine',
         'ZFTest\\OAuth2\\Doctrine',
         'DoctrineModule',
-        'DoctrineORMModule',
+        'DoctrineMongoODMModule',
     ),
 
     // These are various options for the listeners attached to the ModuleManager
@@ -28,7 +28,7 @@ return array(
         // modules are loaded. These effectively override configuration
         // provided by modules themselves. Paths may use GLOB_BRACE notation.
         'config_glob_paths' => array(
-            __DIR__ . '/orm-autoload/{,*.}{global,local}.php',
+            __DIR__ . '/odm-autoload/{,*.}{global,local}.php',
         ),
 
     ),

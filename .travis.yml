@@ -14,6 +14,7 @@ matrix:
 before_script:
   - composer self-update
   - composer install --dev --prefer-source
+  - pecl install -f mongo-1.4.1
 
 script:
   - mkdir -p build/logs
@@ -22,7 +23,10 @@ script:
 
 after_script:
 - php vendor/bin/coveralls
-  
+
 notifications:
   irc: "irc.freenode.org#apigility-dev"
   email: false
+
+services:
+  - mongodb

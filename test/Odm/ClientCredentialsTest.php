@@ -1,6 +1,6 @@
 <?php
 
-namespace ZFTest\OAuth2\DoctrineOdm;
+namespace ZFTest\OAuth2\Doctrine\Odm;
 
 use OAuth2\Storage\ClientCredentialsInterface;
 

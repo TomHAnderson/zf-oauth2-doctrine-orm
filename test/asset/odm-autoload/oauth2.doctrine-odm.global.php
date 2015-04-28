@@ -4,7 +4,7 @@ $userDocument = 'ZFTest\OAuth2\Doctrine\Document\User';
 
 return array(
     'zf-oauth2-doctrine' => array(
-        'storage' => 'ZF\OAuth2\Adapter\DoctrineAdapter',
+        'storage' => 'ZF\OAuth2\Doctrine\Adapter\DoctrineAdapter',
         'storage_settings' => array(
             'object_manager' => 'doctrine.documentmanager.odm_default',
             'event_manager' => 'doctrine.eventmanager.odm_default',

@@ -1,38 +1,43 @@
 <?php
 
+$userDocument = 'ZFTest\OAuth2\Doctrine\Document\User';
+
 return array(
-    'doctrine' => array(
-        'connection' => array(
-            'orm_default' => array(
-                'driverClass' => 'Doctrine\DBAL\Driver\PDOSqlite\Driver',
-                'params' => array(
-                    'path' => __DIR__ . '/../data/doctrine.db',
-                ),
-            ),
-        ),
-    ),
     'zf-oauth2' => array(
         'storage' => 'ZF\OAuth2\Adapter\DoctrineAdapter',
         'storage_settings' => array(
-            'object_manager' => 'doctrine.entitymanager.orm_default',
-            'event_manager' => 'doctrine.eventmanager.orm_default',
-            'driver' => 'doctrine.driver.orm_default',
+            'object_manager' => 'doctrine.documentmanager.odm_default',
+            'event_manager' => 'doctrine.eventmanager.odm_default',
+            'driver' => 'doctrine.driver.odm_default',
             'enable_default_entities' => true,
             'bcrypt_cost' => 14, # match zfcuser
-            // Dynamically map the user_entity to the client_entity
+            // Dynamically map the user_document to the client_document
             'dynamic_mapping' => array(
-                'user_entity' => array(
-                    'entity' => 'RollNApi\Entity\User',
+                'user_document' => array(
+                    'entity' => $userDocument,
                     'field' => 'user',
                 ),
-                'client_entity' => array(
-                    'entity' => 'ZF\OAuth2\Entity\Client',
+                'client_document' => array(
+                    'entity' => 'ZF\OAuth2\Doctrine\Document\Client',
                     'field' => 'client',
                 ),
+                'access_token_document' => array(
+                    'entity' => 'ZF\OAuth2\Doctrine\Document\AccessToken',
+                    'field' => 'accessToken',
+                ),
+                'authorization_code_document' => array(
+                    'entity' => 'ZF\OAuth2\Doctrine\Document\AuthorizationCode',
+                    'field' => 'authorizationCode',
+                ),
+                'refresh_token_document' => array(
+                    'entity' => 'ZF\OAuth2\Doctrine\Document\RefreshToken',
+                    'field' => 'refreshToken',
+                ),
             ),
+
             'mapping' => array(
                 'ZF\OAuth2\Mapper\User' => array(
-                    'entity' => 'RollNApi\Entity\User',
+                    'entity' => $userDocument,
                     'mapping' => array(
                         'user_id' => array(
                             'type' => 'field',
@@ -53,7 +58,7 @@ return array(
                 ),
 
                 'ZF\OAuth2\Mapper\Client' => array(
-                    'entity' => 'ZF\OAuth2\Entity\Client',
+                    'entity' => 'ZF\OAuth2\Doctrine\Document\Client',
                     'mapping' => array(
                         'client_id' => array(
                             'type' => 'field',
@@ -78,14 +83,14 @@ return array(
                         'scope' => array(
                             'type' => 'collection',
                             'name' => 'scope',
-                            'entity' => 'ZF\OAuth2\Entity\Scope',
-                            'mapper' => 'ZF\OAuth2\Mapper\Scope',
+                            'entity' => 'ZF\OAuth2\Doctrine\Document\Scope',
+                            'mapper' => 'ZF\OAuth2\Doctrine\Mapper\Scope',
                         ),
                         'user_id' => array(
                             'type' => 'relation',
                             'name' => 'user',
                             'entity_field_name' => 'id',
-                            'entity' => 'RollNApi\Entity\User',
+                            'entity' => $userDocument,
                             'datatype' => 'integer',
                             'allow_null' => true, # used for unit tests
                         ),

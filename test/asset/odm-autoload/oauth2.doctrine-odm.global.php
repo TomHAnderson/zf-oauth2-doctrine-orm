@@ -3,13 +3,13 @@
 $userDocument = 'ZFTest\OAuth2\Doctrine\Document\User';
 
 return array(
-    'zf-oauth2' => array(
+    'zf-oauth2-doctrine' => array(
         'storage' => 'ZF\OAuth2\Adapter\DoctrineAdapter',
         'storage_settings' => array(
             'object_manager' => 'doctrine.documentmanager.odm_default',
             'event_manager' => 'doctrine.eventmanager.odm_default',
             'driver' => 'doctrine.driver.odm_default',
-            'enable_default_entities' => true,
+            'enable_default_documents' => true,
             'bcrypt_cost' => 14, # match zfcuser
             // Dynamically map the user_document to the client_document
             'dynamic_mapping' => array(

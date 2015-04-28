@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<skipper version="3.0.2.1162" mvc="Without MVC" orm="MongoDbOdm">
-  <module name="OAuth2 ODM" import-format="MongoDbOdmYml" import-path="../config/odm" uuid="2adf0a91-3fc3-4e82-9a3e-12a1f487642a">
+<skipper version="3.1.2.1193" mvc="Without MVC" orm="MongoDbOdm">
+  <module name="OAuth2 ODM" import-format="MongoDbOdmXml" import-path="../config/odm" uuid="2adf0a91-3fc3-4e82-9a3e-12a1f487642a">
     <entity name="Client" uuid="46ef6c11-ac88-4865-abd9-67cbe0513a74">
       <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="9c65fcac-4aed-483b-9898-fe9d8323f1f3"/>
       <field name="clientId" type="string" uuid="5667b2f6-a417-4ee9-a9c1-99b1a7dc731a"/>
@@ -123,7 +123,7 @@
       <entity-ref name="Jti"/>
     </region>
     <orm-attributes>
-      <attribute name="namespace">ZF\OAuth2\Document</attribute>
+      <attribute name="namespace">ZF\OAuth2\Doctrine\Document</attribute>
       <attribute name="file-suffix">.dcm</attribute>
     </orm-attributes>
   </module>

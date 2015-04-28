@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <doctrine-mongo-mapping xmlns="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping" xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
-  <document name="ZF\OAuth2\Document\Jti">
+  <document name="ZF\OAuth2\Doctrine\Document\Jwt">
     <field name="id" id="true" type="integer"/>
     <field name="subject" type="string"/>
-    <field name="audience" type="string"/>
-    <field name="expires" type="date"/>
-    <field name="jti" type="string"/>
-    <reference-one field="client" target-document="ZF\OAuth2\Document\Client" inversed-by="jti"/>
+    <field name="primaryKey" type="string"/>
+    <reference-one field="client" target-document="ZF\OAuth2\Doctrine\Document\Client" inversed-by="jwt"/>
   </document>
 </doctrine-mongo-mapping>

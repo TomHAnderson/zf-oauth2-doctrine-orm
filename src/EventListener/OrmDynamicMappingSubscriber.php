@@ -11,7 +11,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
-class DynamicMappingSubscriber implements EventSubscriber
+class OrmDynamicMappingSubscriber implements EventSubscriber
 {
     protected $config = array();
 

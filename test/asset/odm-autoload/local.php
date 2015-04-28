@@ -2,11 +2,11 @@
 
 return array(
     'doctrine' => array(
-        'configuration' => [
-            'odm_default' => [
+        'configuration' => array(
+            'odm_default' => array(
                 'defaultDB' => 'zf_oauth2_doctrine_test',
-            ],
-        ],
+            ),
+        ),
         'connection' => array(
             'odm_default' => array(
                 'server' => 'localhost',

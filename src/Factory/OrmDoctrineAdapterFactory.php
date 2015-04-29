@@ -9,9 +9,9 @@ namespace ZF\OAuth2\Doctrine\Factory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZF\OAuth2\Controller\Exception;
-use ZF\OAuth2\Doctrine\Adapter\DoctrineAdapter;
+use ZF\OAuth2\Doctrine\Adapter\OrmDoctrineAdapter as DoctrineAdapter;
 
-class DoctrineAdapterFactory implements FactoryInterface
+class OrmDoctrineAdapterFactory implements FactoryInterface
 {
     /**
      * @param ServiceLocatorInterface $services

@@ -66,32 +66,12 @@ class OdmDynamicMappingSubscriber implements EventSubscriber
                 break;
 
             case $this->config['client_document']['entity']:
-                $metadata->mapManyToOne(array(
-                    'targetEntity' => $this->config['user_document']['entity'],
-                    'fieldName' => $this->config['user_document']['field'],
-                    'inversedBy' => $this->config['client_document']['field'],
-                ));
                 break;
             case $this->config['access_token_document']['entity']:
-                $metadata->mapManyToOne(array(
-                    'targetEntity' => $this->config['user_document']['entity'],
-                    'fieldName' => $this->config['user_document']['field'],
-                    'inversedBy' => $this->config['access_token_document']['field'],
-                ));
                 break;
             case $this->config['authorization_code_document']['entity']:
-                $metadata->mapManyToOne(array(
-                    'targetEntity' => $this->config['user_document']['entity'],
-                    'fieldName' => $this->config['user_document']['field'],
-                    'inversedBy' => $this->config['authorization_code_document']['field'],
-                ));
                 break;
             case $this->config['refresh_token_document']['entity']:
-                $metadata->mapManyToOne(array(
-                    'targetEntity' => $this->config['user_document']['entity'],
-                    'fieldName' => $this->config['user_document']['field'],
-                    'inversedBy' => $this->config['refresh_token_document']['field'],
-                ));
                 break;
             default:
                 break;

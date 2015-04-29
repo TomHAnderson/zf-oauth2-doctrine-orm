@@ -26,7 +26,7 @@ use DateTime;
  *
  * @author Tom Anderson <tom.h.anderson@gmail.com>
  */
-class DoctrineAdapter implements
+class OrmDoctrineAdapter implements
     AuthorizationCodeInterface,
     AccessTokenInterface,
     ClientCredentialsInterface,

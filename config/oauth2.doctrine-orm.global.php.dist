@@ -7,7 +7,7 @@ $userEntity = 'ZFTest\OAuth2\Doctrine\Entity\User';
 
 return array(
     'zf-oauth2-doctrine' => array(
-        'storage' => 'ZF\OAuth2\Doctrine\Adapter\DoctrineAdapter',
+        'storage' => 'ZF\OAuth2\Doctrine\Adapter\OrmDoctrineAdapter',
         'storage_settings' => array(
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'event_manager' => 'doctrine.eventmanager.orm_default',

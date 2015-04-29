@@ -36,7 +36,7 @@ return array(
             ),
 
             'mapping' => array(
-                'ZF\OAuth2\Mapper\User' => array(
+                'ZF\OAuth2\Doctrine\Mapper\User' => array(
                     'entity' => $userDocument,
                     'mapping' => array(
                         'user_id' => array(
@@ -57,7 +57,7 @@ return array(
                     ),
                 ),
 
-                'ZF\OAuth2\Mapper\Client' => array(
+                'ZF\OAuth2\Doctrine\Mapper\Client' => array(
                     'entity' => 'ZF\OAuth2\Doctrine\Document\Client',
                     'mapping' => array(
                         'client_id' => array(
@@ -97,8 +97,8 @@ return array(
                     ),
                 ),
 
-                'ZF\OAuth2\Mapper\AccessToken' => array(
-                    'entity' => 'ZF\OAuth2\Entity\AccessToken',
+                'ZF\OAuth2\Doctrine\Mapper\AccessToken' => array(
+                    'entity' => 'ZF\OAuth2\Doctrine\Document\AccessToken',
                     'mapping' => array(
                         'access_token' => array(
                             'type' => 'field',

@@ -544,7 +544,7 @@ class DoctrineAdapter implements
         $mapper->exchangeOAuth2Array(array(
             'access_token' => $access_token,
             'client_id' => $client_id,
-            'user_id' => $user_id,
+            'user' => $user_id,
             'expires' => $expires,
             'scope' => $scope,
         ));

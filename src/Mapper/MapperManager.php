@@ -8,10 +8,8 @@ use DoctrineModule\Persistence\ProvidesObjectManager as ProvidesObjectManagerTra
 use Zend\Config\Config;
 use Zend\ServiceManager\Exception;
 
-class MapperManager extends AbstractPluginManager implements
-    ObjectManagerAwareInterface
+class MapperManager
 {
-    use ProvidesObjectManagerTrait;
 
     protected $config;
 
@@ -34,6 +32,12 @@ class MapperManager extends AbstractPluginManager implements
         'publickey' => 'ZF\OAuth2\Doctrine\Mapper\PublicKey',
     );
 
+    public function __construct(
+        $objectManager
+    ) {
+        $this->objectManager  = $objectManager;
+    }
+
     public function setConfig(Config $config)
     {
         $this->config = $config;
@@ -50,7 +54,7 @@ class MapperManager extends AbstractPluginManager implements
     {
         $plugin = parent::get($name, $options, $usePeeringServiceManagers);
         $plugin->setConfig($this->getConfig()->$name);
-        $plugin->setObjectManager($this->getObjectManager());
+        $plugin->setObjectManager($this->objectManager);
 
         return $plugin;
     }

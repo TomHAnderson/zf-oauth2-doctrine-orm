@@ -12,12 +12,16 @@ use Zend\Config\Config;
 use DateTime;
 use Exception;
 
-abstract class AbstractMapper implements
-    ObjectManagerAwareInterface,
-    ServiceLocatorAwareInterface
+class AbstractMapper implements ObjectManagerAwareInterface, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use ProvidesObjectManagerTrait;
+
+    public function __construct(
+        $serviceLocator
+    ) {
+        $this->serviceLocator  = $serviceLocator;
+    }
 
     /**
      * Specific config for the current mapper
@@ -125,14 +129,14 @@ abstract class AbstractMapper implements
 
                     $queryBuilder = $this->getObjectManager()->createQueryBuilder();
                     $queryBuilder->select('row')
-                    ->from($this->getConfig()->mapping->$key->entity, 'row')
-                    ->andwhere(
-                        $queryBuilder->expr()->in(
-                            'row.'
-                            . $this->getConfig()->mapping->$key->name,
-                            $fieldValues
-                        )
-                    );
+                        ->from($this->getConfig()->mapping->$key->entity, 'row')
+                        ->andwhere(
+                            $queryBuilder->expr()->in(
+                                'row.'
+                                . $this->getConfig()->mapping->$key->name,
+                                $fieldValues
+                            )
+                        );
 
                     $oAuth2Data[$key] = $value;
                     $doctrineData[$this->getConfig()->mapping->$key->name] = $queryBuilder->getQuery()->getResult();
@@ -141,15 +145,15 @@ abstract class AbstractMapper implements
                 case 'relation':
                     // die($this->getConfig()->mapping->$key->entity);
                     $relation = $this->getObjectManager()->getRepository($this->getConfig()->mapping->$key->entity)
-                    ->findOneBy(
-                        array(
-                        $this->getConfig()->mapping->$key->entity_field_name => $value,
-                        )
-                    );
+                        ->findOneBy(
+                            array(
+                                $this->getConfig()->mapping->$key->entity_field_name => $value,
+                            )
+                        );
 
                     if (!$relation) {
                         if (isset($this->getConfig()->mapping->$key->allow_null)
-                        && $this->getConfig()->mapping->$key->allow_null
+                            && $this->getConfig()->mapping->$key->allow_null
                         ) {
                         } else {
                             throw new Exception("Relation was not found: $key: $value");
@@ -225,7 +229,7 @@ abstract class AbstractMapper implements
                 case 'collection':
                     $oAuth2String = array();
                     foreach ($value as $entity) {
-                        $mapper = $this->getServiceLocator()->get($this->getConfig()->mapping->$key->mapper);
+                        $mapper = $this->serviceLocator->get($this->getConfig()->mapping->$key->mapper);
 
                         $mapper->exchangeDoctrineArray($entity->getArrayCopy());
                         $data = $mapper->getOAuth2ArrayCopy();
@@ -245,17 +249,17 @@ abstract class AbstractMapper implements
                         $oAuth2Value = $doctrineArray[$this->getConfig()->mapping->$key->entity_field_name];
                     } else {
                         $relation = $this->getObjectManager()
-                        ->getRepository($this->getConfig()->mapping->$key->entity)
-                        ->findOneBy(
-                            [
-                            $this->getConfig()->mapping->$key->entity_field_name => $value,
+                            ->getRepository($this->getConfig()->mapping->$key->entity)
+                            ->findOneBy(
+                                [
+                                    $this->getConfig()->mapping->$key->entity_field_name => $value,
                                 ]
-                        );
+                            );
                     }
 
                     if (!$relation) {
                         if (isset($this->getConfig()->mapping->$key->allow_null)
-                        && $this->getConfig()->mapping->$key->allow_null
+                            && $this->getConfig()->mapping->$key->allow_null
                         ) {
                         } else {
                             throw new Exception(
@@ -270,7 +274,7 @@ abstract class AbstractMapper implements
 
                         // Recursively map relation data.  This should handle the user_id
                         // whenever the client_id is included.
-                        foreach ($this->getServiceLocator()->getAll() as $mapper) {
+                        foreach ($this->serviceLocator->getAll() as $mapper) {
                             $entityClass = $mapper->getConfig()->entity;
                             if ($relation instanceof $entityClass) {
                                 foreach ($mapper->getConfig()->mapping as $oAuth2Field => $mapperFieldConfig) {
@@ -282,7 +286,7 @@ abstract class AbstractMapper implements
                                         if ($recursiveEntity) {
                                             $recursiveEntityData = $recursiveEntity->getArrayCopy();
                                             $oAuth2Data[$oAuth2Field] =
-                                            $recursiveEntityData[$mapperFieldConfig->entity_field_name];
+                                                $recursiveEntityData[$mapperFieldConfig->entity_field_name];
 
                                             $doctrineData[$mapperFieldConfig->name] = $recursiveEntity;
                                         }

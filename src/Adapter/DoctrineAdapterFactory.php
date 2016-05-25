@@ -78,7 +78,6 @@ class DoctrineAdapterFactory implements FactoryInterface
         // @codeCoverageIgnoreEnd
 
         $mapperManager->setConfig($config->mapping);
-        $mapperManager->setObjectManager($this->loadObjectManager($services, $config->object_manager));
 
         return $mapperManager;
     }

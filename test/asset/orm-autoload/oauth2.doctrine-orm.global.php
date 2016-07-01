@@ -5,9 +5,13 @@
  */
 $userEntity = 'ZFTest\OAuth2\Doctrine\Entity\User';
 
+
 return array(
     'zf-oauth2-doctrine' => array(
         'default' => array(
+            'delegators' => array(
+                'OAuth2\Storage\UserCredentialsInterface' => 'UserCredentialsDelegator',
+            ),
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'event_manager' => 'doctrine.eventmanager.orm_default',
             'driver' => 'doctrine.driver.orm_default',

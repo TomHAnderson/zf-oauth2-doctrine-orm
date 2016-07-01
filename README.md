@@ -80,6 +80,7 @@ The adapter is used to create storage from services.  Add this configuration to 
     ),
 ```
 
+
 Configuration with zfcampus/zf-oauth2
 -------------------------------------
 
@@ -157,6 +158,75 @@ To validate the OAuth2 session with Query Create Filters and Query Providers imp
 `ZF\OAuth2\Doctrine\OAuth2ServerInterface` and use `ZF\OAuth2\Doctrine\OAuth2ServerTrait`.
 Then call `$result = $this->validateOAuth2($scope);` in the filter function.
 
+
+Interface Delegators
+--------------------
+
+The adapter provided by this repository implements, among others, these interfaces:
+
+ * OAuth2\Storage\AuthorizationCodeInterface
+ * OAuth2\Storage\AccessTokenInterface
+ * OAuth2\Storage\ClientCredentialsInterface
+ * OAuth2\Storage\UserCredentialsInterface
+ * OAuth2\Storage\RefreshTokenInterface
+ * OAuth2\Storage\JwtBearerInterface
+ * OAuth2\Storage\ScopeInterface
+ * OAuth2\Storage\PublicKeyInterface
+ * OAuth2\OpenID\Storage\UserClaimsInterface
+
+If you need to customize any of the functions of the adapter which implements one of these interfaces you may create a delegator class which implements an interface.  An interface delegator must implement the entire interface.  If a function of an interface delegator returns null the original adapter function will be used.  For any other return value that value will be returned and the delegated function will not run.
+
+A example to use an interface delegator is when you want to check multiple entities for `checkUserCredentials`.
+Because this adapter is rather complicated to create, the delegator pattern was applied in lieu of extending the adapter class, adapter class factory, and other service manager configuration.
+
+
+Interface Delegators Configuration
+----------------------------------
+
+Delegators are handled by the service manager.  In this example UserCredentialsDelegator is a server manager invokable.  The delegator key is the interface the delegator implements.
+
+```php
+return array(
+    'zf-oauth2-doctrine' => array(
+        'default' => array(
+            'delegators' => array(
+                'OAuth2\Storage\UserCredentialsInterface' => 'UserCredentialsDelegator',
+            ),
+```
+
+
+Interface Delegators Example
+----------------------------
+
+This example from the unit tests delegates the `checkUserCredentials` only if the username is `test_delegator_true` or `test_delegator_false`.
+
+```php
+namespace ZFTest\OAuth2\Doctrine\Delegator;
+
+use OAuth2\Storage\UserCredentialsInterface;
+
+final class UserCredentialsDelegator implements
+    UserCredentialsInterface
+{
+    public function checkUserCredentials($username, $password)
+    {
+        if ($username == 'test_delegator_true') {
+            return true;
+        }
+
+        if ($username == 'test_delegator_false') {
+            return false;
+        }
+
+        return null;
+    }
+
+    public function getUserDetails($username)
+    {
+        return null;
+    }
+}
+```
 
 Extensions
 ----------

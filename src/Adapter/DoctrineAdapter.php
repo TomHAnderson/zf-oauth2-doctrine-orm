@@ -60,6 +60,11 @@ class DoctrineAdapter implements
     /**
      * @var array
      */
+    protected $delegators;
+
+    /**
+     * @var array
+     */
     protected $config = array();
 
     public function getMapperManager()
@@ -136,6 +141,29 @@ class DoctrineAdapter implements
     }
 
     /**
+     * Delegator classes
+     */
+    public function setDelegators(array $delegators)
+    {
+        $this->delegators = $delegators;
+
+        return $this;
+    }
+
+    /**
+     * return array
+     */
+    public function getDelegator($interface)
+    {
+        if (isset($this->delegators[$interface])) {
+            return $this->delegators[$interface];
+        }
+
+        return null;
+    }
+
+
+    /**
      * Because the DoctrineAdapter is not created when added to the service
      * manager it must be bootstrapped specifically in the onBootstrap event
      */
@@ -179,6 +207,14 @@ class DoctrineAdapter implements
      */
     public function checkClientCredentials($client_id, $client_secret = null)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\ClientCredentialsInterface');
+        if ($delegator) {
+            $result = $delegator->checkClientCredentials($client_id, $client_secret = null);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField =
             $this->getConfig()->mapping->Client->mapping->client_id->name;
         $doctrineClientSecretField =
@@ -222,6 +258,14 @@ class DoctrineAdapter implements
      */
     public function isPublicClient($client_id)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\ClientCredentialsInterface');
+        if ($delegator) {
+            $result = $delegator->isPublicClient($client_id);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField =
             $this->getConfig()->mapping->Client->mapping->client_id->name;
 
@@ -269,6 +313,14 @@ class DoctrineAdapter implements
      */
     public function getClientDetails($client_id)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\ClientInterface');
+        if ($delegator) {
+            $result = $delegator->getClientDetails($client_id);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField =
             $this->getConfig()->mapping->Client->mapping->client_id->name;
 
@@ -303,6 +355,22 @@ class DoctrineAdapter implements
         $scope = null,
         $user_id = null
     ) {
+        $delegator = $this->getDelegator('OAuth2\Storage\ClientInterface');
+        if ($delegator && method_exists($delegator, 'setClientDetails')) {
+            $result = $delegator->setClientDetails(
+                $client_id,
+                $client_secret = null,
+                $redirect_uri = null,
+                $grant_types = null,
+                $scope = null,
+                $user_id = null
+            );
+
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField =
             $this->getConfig()->mapping->Client->mapping->client_id->name;
 
@@ -367,6 +435,14 @@ class DoctrineAdapter implements
      */
     public function checkRestrictedGrantType($client_id, $grant_type)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\ClientInterface');
+        if ($delegator) {
+            $result = $delegator->checkRestrictedGrantType($client_id, $grant_type);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField =
             $this->getConfig()->mapping->Client->mapping->client_id->name;
 
@@ -401,6 +477,14 @@ class DoctrineAdapter implements
      */
     public function getClientScope($client_id)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\ClientInterface');
+        if ($delegator) {
+            $result = $delegator->getClientScope($client_id);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField =
             $this->getConfig()->mapping->Client->mapping->client_id->name;
 
@@ -445,6 +529,14 @@ class DoctrineAdapter implements
      */
     public function getAccessToken($access_token)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\AccessTokenInterface');
+        if ($delegator) {
+            $result = $delegator->getAccessToken($access_token);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineAccessTokenField =
             $this->getConfig()->mapping->AccessToken->mapping->access_token->name;
 
@@ -488,6 +580,21 @@ class DoctrineAdapter implements
         $expires,
         $scope = null
     ) {
+        $delegator = $this->getDelegator('OAuth2\Storage\AccessTokenInterface');
+        if ($delegator) {
+            $result = $delegator->setAccessToken(
+                $access_token,
+                $client_id,
+                $user_id,
+                $expires,
+                $scope = null
+            );
+
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineAccessTokenField =
             $this->getConfig()->mapping->AccessToken->mapping->access_token->name;
 
@@ -551,6 +658,14 @@ class DoctrineAdapter implements
      */
     public function getAuthorizationCode($code)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\AuthorizationCodeInterface');
+        if ($delegator) {
+            $result = $delegator->getAuthorizationCode($code);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineAuthorizationCode =
             $this->getConfig()->mapping->AuthorizationCode->mapping->authorization_code->name;
         $doctrineExpiresField =
@@ -614,6 +729,23 @@ class DoctrineAdapter implements
         $scope = null,
         $id_token = null
     ) {
+        $delegator = $this->getDelegator('OAuth2\Storage\AuthorizationCodeInterface');
+        if ($delegator) {
+            $result = $delegator->setAuthorizationCode(
+                $code,
+                $client_id,
+                $user_id,
+                $redirect_uri,
+                $expires,
+                $scope = null,
+                $id_token = null
+            );
+
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineAuthorizationCodeField =
             $this->getConfig()->mapping->AuthorizationCode->mapping->authorization_code->name;
 
@@ -665,6 +797,14 @@ class DoctrineAdapter implements
      */
     public function expireAuthorizationCode($code)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\AuthorizationCodeInterface');
+        if ($delegator) {
+            $result = $delegator->expireAuthorizationCode($code);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineAuthorizationCodeField =
             $this->getConfig()->mapping->AuthorizationCode->mapping->authorization_code->name;
 
@@ -715,6 +855,14 @@ class DoctrineAdapter implements
      */
     public function checkUserCredentials($username, $password)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\UserCredentialsInterface');
+        if ($delegator) {
+            $result = $delegator->checkUserCredentials($username, $password);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $qb = $this->getObjectManager()->createQueryBuilder();
 
         $qb->select(array('u'))
@@ -753,6 +901,14 @@ class DoctrineAdapter implements
      */
     public function getUserDetails($username)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\UserCredentialsInterface');
+        if ($delegator) {
+            $result = $delegator->getUserDetails($username);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $qb = $this->getObjectManager()->createQueryBuilder();
 
         $qb->select(array('u'))
@@ -797,6 +953,14 @@ class DoctrineAdapter implements
      */
     public function getUserClaims($username, $scope)
     {
+        $delegator = $this->getDelegator('OAuth2\OpenID\Storage\UserClaimsInterface');
+        if ($delegator) {
+            $result = $delegator->getUserClaims($username, $scope);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineUsernameField = $this->getConfig()->mapping->User->mapping->username->name;
 
         $user = $this->getObjectManager()
@@ -872,6 +1036,14 @@ class DoctrineAdapter implements
     # If expired return null
     public function getRefreshToken($refresh_token)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\RefreshTokenInterface');
+        if ($delegator) {
+            $result = $delegator->getRefreshToken($refresh_token);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineRefreshTokenField =
             $this->getConfig()->mapping->RefreshToken->mapping->refresh_token->name;
         $doctrineExpiresField =
@@ -932,6 +1104,21 @@ class DoctrineAdapter implements
         $expires,
         $scope = null
     ) {
+        $delegator = $this->getDelegator('OAuth2\Storage\RefreshTokenInterface');
+        if ($delegator) {
+            $result = $delegator->setRefreshToken(
+                $refresh_token,
+                $client_id,
+                $user_id,
+                $expires,
+                $scope = null
+            );
+
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineRefreshTokenField =
             $this->getConfig()->mapping->RefreshToken->mapping->refresh_token->name;
 
@@ -995,6 +1182,14 @@ class DoctrineAdapter implements
      */
     public function unsetRefreshToken($refresh_token)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\RefreshTokenInterface');
+        if ($delegator) {
+            $result = $delegator->unsetRefreshToken($refresh_token);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineRefreshTokenCodeField =
             $this->getConfig()->mapping->RefreshToken->mapping->refresh_token->name;
 
@@ -1031,6 +1226,14 @@ class DoctrineAdapter implements
      */
     public function scopeExists($scope)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\ScopeInterface');
+        if ($delegator) {
+            $result = $delegator->scopeExists($scope);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $scopeArray = explode(' ', $scope);
 
         $queryBuilder = $this->getObjectManager()->createQueryBuilder();
@@ -1070,6 +1273,14 @@ class DoctrineAdapter implements
      */
     public function getDefaultScope($client_id = null)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\ScopeInterface');
+        if ($delegator) {
+            $result = $delegator->getDefaultScope($client_id = null);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineScopeIsDefaultField =
             $this->getConfig()->mapping->Scope->mapping->is_default->name;
 
@@ -1105,6 +1316,14 @@ class DoctrineAdapter implements
      */
     public function getClientKey($client_id, $subject)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\JWTBearerInterface');
+        if ($delegator) {
+            $result = $delegator->getClientKey($client_id, $subject);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField = $this->getConfig()->mapping->Client->mapping->client_id->name;
 
         $client = $this->getObjectManager()
@@ -1180,6 +1399,21 @@ class DoctrineAdapter implements
         $expires,
         $jti
     ) {
+        $delegator = $this->getDelegator('OAuth2\Storage\JWTBearerInterface');
+        if ($delegator) {
+            $result = $delegator->getJti(
+                $client_id,
+                $subject,
+                $audience,
+                $expires,
+                $jti
+            );
+
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField = $this->getConfig()->mapping->Jti->mapping->client_id->name;
         $doctrineSubjectField = $this->getConfig()->mapping->Jti->mapping->subject->name;
         $doctrineAudienceField = $this->getConfig()->mapping->Jti->mapping->audience->name;
@@ -1237,6 +1471,14 @@ class DoctrineAdapter implements
      */
     public function setJti($client_id, $subject, $audience, $expires, $jti)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\JWTBearerInterface');
+        if ($delegator) {
+            $result = $delegator->setJti($client_id, $subject, $audience, $expires, $jti);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $jtiEntityClass = $this->getConfig()->mapping->Jti->entity;
         $jtiEntity = new $jtiEntityClass;
 
@@ -1257,9 +1499,17 @@ class DoctrineAdapter implements
         return true;
     }
 
-    /* OAuth2\Storate\PublicKeyInterface */
+    /* OAuth2\Storage\PublicKeyInterface */
     public function getPublicKey($client_id = null)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\PublicKeyInterface');
+        if ($delegator) {
+            $result = $delegator->getPublicKey($client_id = null);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField = $this->getConfig()->mapping->Client->mapping->client_id->name;
 
         $client = $this->getObjectManager()
@@ -1282,9 +1532,17 @@ class DoctrineAdapter implements
         return $publicKeyOAuth2['public_key'];
     }
 
-    /* OAuth2\Storate\PublicKeyInterface */
+    /* OAuth2\Storage\PublicKeyInterface */
     public function getPrivateKey($client_id = null)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\PublicKeyInterface');
+        if ($delegator) {
+            $result = $delegator->getPrivateKey($client_id = null);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField = $this->getConfig()->mapping->Client->mapping->client_id->name;
 
         $client = $this->getObjectManager()
@@ -1307,9 +1565,17 @@ class DoctrineAdapter implements
         return $publicKeyOAuth2['private_key'];
     }
 
-    /* OAuth2\Storate\PublicKeyInterface */
+    /* OAuth2\Storage\PublicKeyInterface */
     public function getEncryptionAlgorithm($client_id = null)
     {
+        $delegator = $this->getDelegator('OAuth2\Storage\PublicKeyInterface');
+        if ($delegator) {
+            $result = $delegator->getEncryptionAlgorithm($client_id = null);
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
+
         $doctrineClientIdField = $this->getConfig()->mapping->Client->mapping->client_id->name;
 
         $client = $this->getObjectManager()

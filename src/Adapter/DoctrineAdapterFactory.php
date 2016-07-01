@@ -34,8 +34,35 @@ class DoctrineAdapterFactory implements FactoryInterface
         $adapter->setConfig($this->config);
         $adapter->setObjectManager($this->loadObjectManager($services, $this->config->object_manager));
         $adapter->setMapperManager($this->loadMapperManager($services, $this->config));
+        $adapter->setDelegators($this->loadDelegators($services, $this->config));
 
         return $adapter;
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param Zend\Config\Config $this->config
+     *
+     * @return array
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     */
+    protected function loadDelegators(ServiceLocatorInterface $services, $config)
+    {
+        $delegators = array();
+
+        if (! isset($config['delegators'])) {
+            return $delegators;
+        }
+
+        foreach ($config['delegators'] as $interface => $className) {
+            $delegators[$interface] = $services->get($className);
+
+            if (! $delegators[$interface] instanceof $interface) {
+                throw new ServiceNotCreatedException("Delegator $className is not an instance of $interface");
+            }
+        }
+
+        return $delegators;
     }
 
     /**

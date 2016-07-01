@@ -3,10 +3,15 @@
 namespace ZFTest\OAuth2\Doctrine\Delegator;
 
 use OAuth2\Storage\UserCredentialsInterface;
+use ZF\OAuth2\Doctrine\Delegator\DelegatorInterface;
+use ZF\OAuth2\Doctrine\Delegator\DelegatorTrait;
 
 final class UserCredentialsDelegator implements
-    UserCredentialsInterface
+    UserCredentialsInterface,
+    DelegatorInterface
 {
+    use DelegatorTrait;
+
     public function checkUserCredentials($username, $password)
     {
         if ($username == 'test_delegator_true') {

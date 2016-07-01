@@ -10,6 +10,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\Config\Config;
+use ZF\OAuth2\Doctrine\Delegator\DelegatorInterface;
 
 class DoctrineAdapterFactory implements FactoryInterface
 {
@@ -34,8 +35,41 @@ class DoctrineAdapterFactory implements FactoryInterface
         $adapter->setConfig($this->config);
         $adapter->setObjectManager($this->loadObjectManager($services, $this->config->object_manager));
         $adapter->setMapperManager($this->loadMapperManager($services, $this->config));
+        $adapter->setDelegators($this->loadDelegators($services, $this->config, $adapter));
 
         return $adapter;
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param Zend\Config\Config $this->config
+     *
+     * @return array
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     */
+    protected function loadDelegators(ServiceLocatorInterface $services, $config, DoctrineAdapter $doctrineAdapter)
+    {
+        $delegators = array();
+
+        if (! isset($config['delegators'])) {
+            return $delegators;
+        }
+
+        foreach ($config['delegators'] as $interface => $className) {
+            $delegators[$interface] = $services->get($className);
+
+            if (! $delegators[$interface] instanceof $interface) {
+                throw new ServiceNotCreatedException("Delegator $className is not an instance of $interface");
+            }
+
+            if (! $delegators[$interface] instanceof DelegatorInterface) {
+                throw new ServiceNotCreatedException("Delegator is not an instance of " . DelegatorInterface::class);
+            }
+
+            $delegators[$interface]->setDoctrineAdapter($doctrineAdapter);
+        }
+
+        return $delegators;
     }
 
     /**

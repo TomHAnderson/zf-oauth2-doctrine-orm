@@ -3,6 +3,13 @@
 namespace Blitzy;
 
 return array(
+    'service_manager' => array(
+        'invokables' => array(
+            'UserCredentialsDelegator' =>
+                'ZFTest\OAuth2\Doctrine\Delegator\UserCredentialsDelegator'
+        ),
+    ),
+
     'doctrine' => array(
         'driver' => array(
             'orm_driver' => array(

@@ -22,6 +22,10 @@ class UserCredentialsTest extends BaseTest
         // invalid username
         $this->assertFalse($storage->checkUserCredentials('wrongusername', 'testpass'));
 
+        // delegator
+        $this->assertTrue($storage->checkUserCredentials('test_delegator_true', ''));
+        $this->assertFalse($storage->checkUserCredentials('test_delegator_false', ''));
+
         // invalid username
         $this->assertFalse($storage->getUserDetails('wrongusername'));
 

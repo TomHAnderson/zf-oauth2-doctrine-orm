@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="ZF\OAuth2\Doctrine\Entity\Scope" table="Scope_OAuth2">
+  <entity name="ZF\OAuth2\Doctrine\Entity\Scope" table="oauth2_scope">
     <id name="id" type="integer">
       <generator strategy="AUTO"/>
     </id>
     <field name="scope" type="text" nullable="true"/>
     <field name="isDefault" type="boolean" nullable="true"/>
     <many-to-many field="client" target-entity="ZF\OAuth2\Doctrine\Entity\Client" inversed-by="scope">
-      <join-table name="ClientToScope_OAuth2">
+      <join-table name="oauth2_client_to_oauth2_scope">
         <join-columns>
           <join-column name="scope_id" referenced-column-name="id" nullable="false"/>
         </join-columns>
@@ -17,7 +17,7 @@
       </join-table>
     </many-to-many>
     <many-to-many field="authorizationCode" target-entity="ZF\OAuth2\Doctrine\Entity\AuthorizationCode" inversed-by="scope">
-      <join-table name="AuthorizationCodeToScope_OAuth2">
+      <join-table name="oauth2_authorization_code_to_oauth2_scope">
         <join-columns>
           <join-column name="scope_id" referenced-column-name="id" nullable="false"/>
         </join-columns>
@@ -27,7 +27,7 @@
       </join-table>
     </many-to-many>
     <many-to-many field="refreshToken" target-entity="ZF\OAuth2\Doctrine\Entity\RefreshToken" inversed-by="scope">
-      <join-table name="RefreshTokenToScope_OAuth2">
+      <join-table name="oauth2_refresh_token_to_oauth2_scope">
         <join-columns>
           <join-column name="scope_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
         </join-columns>
@@ -37,7 +37,7 @@
       </join-table>
     </many-to-many>
     <many-to-many field="accessToken" target-entity="ZF\OAuth2\Doctrine\Entity\AccessToken" inversed-by="scope">
-      <join-table name="AccessTokenToScope_OAuth2">
+      <join-table name="oauth2_access_token_to_oauth2_scope">
         <join-columns>
           <join-column name="scope_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
         </join-columns>

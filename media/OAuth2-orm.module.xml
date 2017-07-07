@@ -8,7 +8,7 @@
       <field name="redirectUri" type="text" uuid="e419d490-b93f-4a8b-b21b-03f3fc6a75ae"/>
       <field name="grantType" type="array" uuid="475c289c-1057-4314-a146-955108acb56a"/>
       <orm-attributes>
-        <attribute name="table">Client_OAuth2</attribute>
+        <attribute name="table">oauth2_client</attribute>
       </orm-attributes>
     </entity>
     <comment caption="Disconnected User" description="The ZF\OAuth2\Entity\User does not exist and should be replaced with a custom user entity with a client relation to dynamically assoicate them.  This is dynamically mapped and defined in the config." uuid="664daa50-d4a6-4d82-a35f-5eb5e2e8e7ca"/>
@@ -19,35 +19,35 @@
         <field name="scope" type="text" uuid="54d7a7b3-1ffc-44f5-a198-fcd2d1f14dd5"/>
         <field name="isDefault" type="boolean" uuid="944d76ea-159b-43fb-a182-5100908dfd7b"/>
         <orm-attributes>
-          <attribute name="table">Scope_OAuth2</attribute>
+          <attribute name="table">oauth2_scope</attribute>
         </orm-attributes>
       </entity>
       <entity name="\ZF\OAuth2\Doctrine\Entity\ClientToScope" local-name="ClientToScope" namespace="\ZF\OAuth2\Doctrine\Entity" uuid="fc3df9ba-7e50-4415-90d4-6009251c5942">
         <field name="client_id" type="integer" required="true" primary="true" uuid="de2bac28-b8ac-4ee2-a53b-7cf47e7d137a"/>
         <field name="scope_id" type="integer" required="true" primary="true" uuid="b3c31b74-7ac9-48dd-a7ba-844d788133ce"/>
         <orm-attributes>
-          <attribute name="table">ClientToScope_OAuth2</attribute>
+          <attribute name="table">oauth2_client_to_oauth2_scope</attribute>
         </orm-attributes>
       </entity>
       <entity name="\ZF\OAuth2\Doctrine\Entity\AuthorizationCodeToScope" local-name="AuthorizationCodeToScope" namespace="\ZF\OAuth2\Doctrine\Entity" uuid="654eac84-7c6d-4280-9138-1658291dfb7e">
         <field name="authorization_code_id" type="integer" required="true" primary="true" uuid="f493d087-c62c-4575-9eff-8ec38940af06"/>
         <field name="scope_id" type="integer" required="true" primary="true" uuid="837101ff-24c2-41a8-8266-66db04fc9a5b"/>
         <orm-attributes>
-          <attribute name="table">AuthorizationCodeToScope_OAuth2</attribute>
+          <attribute name="table">oauth2_authorization_code_to_oauth2_scope</attribute>
         </orm-attributes>
       </entity>
       <entity name="\ZF\OAuth2\Doctrine\Entity\RefreshTokenToScope" local-name="RefreshTokenToScope" namespace="\ZF\OAuth2\Doctrine\Entity" uuid="d25ad9b3-1751-49e7-901d-a92fae42a8b2">
         <field name="refresh_token_id" type="integer" required="true" primary="true" uuid="0461bc59-2d15-413b-96e7-1cf2d59fd38d"/>
         <field name="scope_id" type="integer" required="true" primary="true" uuid="0cf2ddc4-4138-446c-9d9f-d744ab1aeddf"/>
         <orm-attributes>
-          <attribute name="table">RefreshTokenToScope_OAuth2</attribute>
+          <attribute name="table">oauth2_refresh_token_to_oauth2_scope</attribute>
         </orm-attributes>
       </entity>
       <entity name="\ZF\OAuth2\Doctrine\Entity\AccessTokenToScope" local-name="AccessTokenToScope" namespace="\ZF\OAuth2\Doctrine\Entity" uuid="4f5f9113-1ca7-472d-ba02-7b178329ced8">
         <field name="access_token_id" type="integer" required="true" primary="true" uuid="f3480d3c-ab18-4c39-8e69-a5f6ac69ad41"/>
         <field name="scope_id" type="integer" required="true" primary="true" uuid="88e6e6f2-2899-471d-8694-ff1b4f09ef93"/>
         <orm-attributes>
-          <attribute name="table">AccessTokenToScope_OAuth2</attribute>
+          <attribute name="table">oauth2_access_token_to_oauth2_scope</attribute>
         </orm-attributes>
       </entity>
     </region>

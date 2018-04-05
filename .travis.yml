@@ -16,6 +16,7 @@ matrix:
     - php: 7.1
       env:
         - EXECUTE_COVERAGE=true
+        - EXECUTE_CS_CHECK=true 
         - DEPS=lowest
     - php: 7.1
       env:
